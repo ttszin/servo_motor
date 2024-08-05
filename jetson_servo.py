@@ -25,3 +25,7 @@ def send_set_servo_command(servo_number, pwm_value):
         for pwm in pwm_values:
             self.send_set_servo_command(servo_channel, pwm)
             rospy.Rate(20).sleep()
+
+send_set_servo_command(7,2000)
+send_set_servo_command(7,800)
+send_set_servo_command(7,2000)
