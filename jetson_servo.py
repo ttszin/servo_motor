@@ -22,7 +22,7 @@ def send_set_servo_command(servo_number, pwm_value):
         rospy.logerr("Service call failed: %s" % e)
         return False
 
-def delivery(servo_channel=7, pwm_values=[2000, 700]):
+def delivery(servo_channel=7, pwm_values=[2000, 800]):
     for pwm in pwm_values:
         send_set_servo_command(servo_channel, pwm)
         rospy.Rate(20).sleep()
