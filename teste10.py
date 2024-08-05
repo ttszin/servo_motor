@@ -4,8 +4,10 @@ from mavros_msgs.srv import CommandLong,CommandLongRequest
 def check_service():
     try:
         rospy.wait_for_service( '/mavros/cmd/command', timeout=60)
+        print("Sucesso ao esperar serviço")
     except rospy.ROSException as ros_exception:
         raise rospy.ROSException from ros_exception
+        
     
 
 def send_set_servo_command(servo_number, pwm_value):
@@ -32,7 +34,7 @@ def send_set_servo_command(servo_number, pwm_value):
 def delivery( servo_channel=7, pwm_values=[2000, 800]):
     for pwm in pwm_values:
         send_set_servo_command(servo_channel, pwm)
-        rospy.Rate(20).sleep()
+        # rospy.Rate(20).sleep()
 
 if __name__ == "__main__":
     # Inicializa o nó ROS
