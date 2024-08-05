@@ -21,10 +21,10 @@ def send_set_servo_command(servo_number, pwm_value):
             return False
         
 
-    def delivery(self, servo_channel=7, pwm_values=[2000, 700]):
-        for pwm in pwm_values:
-            self.send_set_servo_command(servo_channel, pwm)
-            rospy.Rate(20).sleep()
+def delivery(self, servo_channel=7, pwm_values=[2000, 700]):
+    for pwm in pwm_values:
+        self.send_set_servo_command(servo_channel, pwm)
+        rospy.Rate(20).sleep()
 
 send_set_servo_command(7,2000)
 send_set_servo_command(7,800)
