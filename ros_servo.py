@@ -43,10 +43,18 @@ def activate_servo(servo_number, pwm_value):
 
 if __name__ == "__main__":
     rospy.init_node('servo_control_node')
-    
-    # rospy.Subscriber("/mavros/state", State, state_callback)
+
+    # Aguarda a primeira mensagem de estado
+    rospy.wait_for_message("/mavros/state", State)
+
+    # Inscreve-se no tópico de estado para manter o current_state atualizado
+    rospy.Subscriber("/mavros/state", State, state_callback)
     
     # Exemplo: Ativa o servo no canal 7 com um valor PWM de 1500
-    activate_servo(7, 1500)
-    rospy.loginfo("Servo ativado com sucesso!")
+    if activate_servo(7, 1500):
+        rospy.loginfo("Servo ativado com sucesso!")
+    else:
+        rospy.logerr("Falha ao ativar o servo.")
     
+    # Mantém o nó ativo
+    rospy.spin()
