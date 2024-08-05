@@ -9,7 +9,7 @@ def state_callback(state):
     current_state = state
 
 def set_custom_mode(custom_mode: str = "GUIDED") -> bool:
-    rospy.wait_for_service("/mavros/set_mode", timeout=60)
+    rospy.wait_for_service("/mavros/set_mode")
     try:
         set_mode_service = rospy.ServiceProxy("/mavros/set_mode", SetMode)
         response = set_mode_service(0, custom_mode)
