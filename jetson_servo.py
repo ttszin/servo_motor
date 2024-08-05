@@ -1,20 +1,38 @@
 import rospy
-from mavros_msgs.msg import OverrideRCIn
+from mavros_msgs.srv import CommandLong
 
-def set_servo_via_rc_override(channel, pwm_value):
-    pub = rospy.Publisher('/mavros/rc/override', OverrideRCIn, queue_size=10)
-    rc_override = OverrideRCIn()
-    rc_override.channels = [0] * 8  # Inicializa todos os canais com 0 (nenhum override)
-    rc_override.channels[channel - 1] = pwm_value  # Define o PWM no canal especificado
-    pub.publish(rc_override)
-    rospy.sleep(1)  # Aguarda 1 segundo para garantir que o comando seja enviado
+def send_set_servo_command(servo_number, pwm_value):
+    rospy.wait_for_service('/mavros/cmd/command')
+    try:
+        command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLong)
+        response = command_service(
+            False,        # broadcast
+            183,          # MAV_CMD_DO_SET_SERVO
+            0,            # confirmation
+            servo_number, # param1: Servo number (1 for first servo, 2 for second, etc.)
+            pwm_value,    # param2: PWM value (e.g., 1100 to 1900)
+            0,            # param3
+            0,            # param4
+            0,            # param5
+            0,            # param6
+            0             # param7
+        )
+        return response.success
+    except rospy.ServiceException as e:
+        rospy.logerr("Service call failed: %s" % e)
+        return False
+
+def delivery(servo_channel=7, pwm_values=[2000, 800]):
+    for pwm in pwm_values:
+        send_set_servo_command(servo_channel, pwm)
+        rospy.Rate(20).sleep()
 
 # Inicializa o nó ROS
 rospy.init_node('servo_control_node')
 
 # Testando os comandos de servo
-set_servo_via_rc_override(7, 2000)
+send_set_servo_command(7, 2000)
 rospy.sleep(1)
-set_servo_via_rc_override(7, 800)
+send_set_servo_command(7, 800)
 rospy.sleep(1)
-set_servo_via_rc_override(7, 2000)
+send_set_servo_command(7, 2000)
