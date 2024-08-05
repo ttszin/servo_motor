@@ -1,4 +1,5 @@
 import rospy
+from mavros_msgs.srv import CommandLong, CommandLongRequest
 
 def send_set_servo_command(servo_number, pwm_value):
     rospy.wait_for_service('/mavros/cmd/command')
@@ -28,6 +29,13 @@ def send_set_servo_command(servo_number, pwm_value):
             self.send_set_servo_command(servo_channel, pwm)
             rospy.Rate(20).sleep()
 
-send_set_servo_command(7,2000)
-send_set_servo_command(7,800)
-send_set_servo_command(7,2000)
+
+# Inicializa o nó ROS
+rospy.init_node('servo_control_node')
+
+# Testando os comandos de servo
+send_set_servo_command(7, 2000)
+rospy.sleep(1)
+send_set_servo_command(7, 800)
+rospy.sleep(1)
+send_set_servo_command(7, 2000)
