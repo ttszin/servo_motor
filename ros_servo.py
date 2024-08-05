@@ -47,8 +47,6 @@ if __name__ == "__main__":
     # rospy.Subscriber("/mavros/state", State, state_callback)
     
     # Exemplo: Ativa o servo no canal 7 com um valor PWM de 1500
-    if activate_servo(7, 1500):
-        rospy.loginfo("Servo ativado com sucesso!")
-    else:
-        erro = rospy.ServiceException
-        rospy.logerr(f"Falha ao ativar o servo. Na chamada de serviço {e}")
+    activate_servo(7, 1500):
+    rospy.loginfo("Servo ativado com sucesso!")
+    
