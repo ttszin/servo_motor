@@ -2,11 +2,11 @@ import rospy
 from mavros_msgs.srv import CommandLong,CommandLongRequest
 
 def check_service():
-    try:
-        rospy.wait_for_service( '/mavros/cmd/command', timeout=60)
-        print("Sucesso ao esperar serviço")
-    except rospy.ROSException as ros_exception:
-        raise rospy.ROSException from ros_exception
+    # try:
+    rospy.wait_for_service( '/mavros/cmd/command', timeout=60)
+    print("Sucesso ao esperar serviço")
+    # except rospy.ROSException as ros_exception:
+    #     raise rospy.ROSException from ros_exception
         
     
 
