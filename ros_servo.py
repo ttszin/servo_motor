@@ -9,7 +9,7 @@ def state_callback(state):
     current_state = state
 
 def set_custom_mode(custom_mode: str = "GUIDED") -> bool:
-    # rospy.wait_for_service("/mavros/set_mode", timeout=60)
+    rospy.wait_for_service("/mavros/set_mode", timeout=60)
     try:
         set_mode_service = rospy.ServiceProxy("/mavros/set_mode", SetMode)
         response = set_mode_service(0, custom_mode)
@@ -26,7 +26,7 @@ def activate_servo(servo_number, pwm_value):
             rospy.logerr("Falha ao mudar para o modo GUIDED.")
             return False
     
-    # rospy.wait_for_service('/mavros/cmd/command')
+    rospy.wait_for_service('/mavros/cmd/command')
     try:
         command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLong)
         response = command_service(
@@ -50,4 +50,4 @@ if __name__ == "__main__":
     if activate_servo(7, 1500):
         rospy.loginfo("Servo ativado com sucesso!")
     else:
-        rospy.logerr(f"Falha ao ativar o servo. {e}")
+        rospy.logerr(f"Falha ao ativar o servo.")
