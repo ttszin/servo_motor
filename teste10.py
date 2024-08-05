@@ -37,4 +37,4 @@ def delivery( servo_channel=7, pwm_values=[2000, 800]):
 if __name__ == "__main__":
     # Inicializa o nó ROS
     rospy.init_node('servo_control_node')
-delivery()
+    delivery()
