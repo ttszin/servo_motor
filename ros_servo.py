@@ -7,6 +7,7 @@ current_state = State()
 def state_callback(state):
     global current_state
     current_state = state
+    print(current_state)
 
 def set_custom_mode(custom_mode: str = "GUIDED") -> bool:
     rospy.wait_for_service("/mavros/set_mode")
@@ -42,7 +43,8 @@ def activate_servo(servo_number, pwm_value):
 
 if __name__ == "__main__":
     rospy.init_node('servo_control_node')
-    rospy.Subscriber("/mavros/state", State, state_callback)
+    
+    # rospy.Subscriber("/mavros/state", State, state_callback)
     
     # Exemplo: Ativa o servo no canal 7 com um valor PWM de 1500
     if activate_servo(7, 1500):
