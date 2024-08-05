@@ -3,7 +3,7 @@ import rospy
 def send_set_servo_command(servo_number, pwm_value):
     rospy.wait_for_service('/mavros/cmd/command')
     try:
-        command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLong)
+        command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLongRequest)
         request = CommandLongRequest(
             broadcast=False,
             command=183,  # MAV_CMD_DO_SET_SERVO
