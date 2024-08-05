@@ -90,12 +90,12 @@ set_servo(7, 2000)
 time.sleep(2)  # Espera 2 segundos
 
 # Move o servo para o valor PWM mínimo (1000 microsegundos)
-set_servo(7,700)
-# time.sleep(2)  # Espera 2 segundos
+set_servo(7,800)
+time.sleep(2)  # Espera 2 segundos
 
 # # Move o servo de volta ao valor PWM médio (1500 microsegundos)
-# set_servo(7, 2000)
-# time.sleep(2)  # Espera 2 segundos
+set_servo(7, 2000)
+time.sleep(2)  # Espera 2 segundos
 
 # Fecha a conexão
 master.close()
