@@ -2,8 +2,8 @@ import rospy
 from mavros_msgs.srv import CommandLong
 
 def send_set_servo_command(servo_number, pwm_value):
-    rospy.wait_for_service('/mavros/cmd/command')
-    try:
+        rospy.wait_for_service('/mavros/cmd/command')
+    # try:
         command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLong)
         response = command_service(
             False,        # broadcast
@@ -18,9 +18,9 @@ def send_set_servo_command(servo_number, pwm_value):
             0             # param7
         )
         return response.success
-    except rospy.ServiceException as e:
-        rospy.logerr("Service call failed: %s" % e)
-        return False
+    # except rospy.ServiceException as e:
+    #     rospy.logerr("Service call failed: %s" % e)
+    #     return False
 
 def delivery(servo_channel=7, pwm_values=[2000, 800]):
     for pwm in pwm_values:
