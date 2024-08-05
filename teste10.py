@@ -1,42 +1,36 @@
 import rospy
-from mavros_msgs.srv import CommandLong,CommandLongRequest
+from mavros_msgs.msg import State
+from mavros_msgs.srv import CommandBool, SetMode
+from std_msgs.msg import String
 
-def check_service():
-    # try:
-    rospy.wait_for_service( '/mavros/cmd/command', timeout=60)
-    print("Sucesso ao esperar serviço")
-    # except rospy.ROSException as ros_exception:
-    #     raise rospy.ROSException from ros_exception
-        
-    
+def state_cb(state):
+    rospy.loginfo(f"Current state: {state.mode}")
 
-def send_set_servo_command(servo_number, pwm_value):
+def connect_mavros():
+    rospy.init_node('mavros_connection_node', anonymous=True)
+
+    # Assinatura do tópico de estado
+    state_sub = rospy.Subscriber('/mavros/state', State, state_cb)
+
+    # Serviço para armar/desarmar o veículo
+    arming_client = rospy.ServiceProxy('/mavros/cmd/arming', CommandBool)
+
+    # Serviço para definir o modo de voo
+    set_mode_client = rospy.ServiceProxy('/mavros/set_mode', SetMode)
+
+    rate = rospy.Rate(20) # 20 Hz
+
+    while not rospy.is_shutdown():
+        # Aqui você pode adicionar a lógica para enviar comandos
+        # Exemplo de armamento:
+        arming_client.call(True)
+        # Exemplo de mudança de modo para GUIDED
+        set_mode_client.call(0, "GUIDED")
+
+        rate.sleep()
+
+if __name__ == '__main__':
     try:
-        command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLong)
-        request = CommandLongRequest(
-            broadcast=False,
-            command=183,  # MAV_CMD_DO_SET_SERVO
-            confirmation=0,
-            param1=servo_number,  # Servo number (1 for first servo, 2 for second, etc.)
-            param2=pwm_value,     # PWM value (e.g., 1100 to 1900)
-            param3=0,
-            param4=0,
-            param5=0,
-            param6=0,
-            param7=0
-        )
-        response = command_service(request)
-        return response.success
-    except rospy.ServiceException as e:
-        rospy.logerr("Service call failed: %s" % e)
-        return False
-    
-def delivery( servo_channel=7, pwm_values=[2000, 800]):
-    for pwm in pwm_values:
-        send_set_servo_command(servo_channel, pwm)
-        # rospy.Rate(20).sleep()
-
-if __name__ == "__main__":
-    # Inicializa o nó ROS
-    rospy.init_node('servo_control_node')
-    delivery()
+        connect_mavros()
+    except rospy.ROSInterruptException:
+        pass
