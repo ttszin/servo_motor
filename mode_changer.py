@@ -1,5 +1,5 @@
 import rospy
-from mavros_msgs.srv import CommandLong,CommandLongRequest
+from mavros_msgs.srv import CommandLong,CommandLongRequest,CommandBool
 
 def set_custom_mode(custom_mode: str = "GUIDED") -> str:
         """This method set a custom mode to UAV
