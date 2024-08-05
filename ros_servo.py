@@ -6,7 +6,7 @@ def send_set_servo_command(servo_number, pwm_value):
             command_service = rospy.ServiceProxy('/mavros/cmd/command', CommandLong)
             request = CommandLongRequest(
                 broadcast=False,
-                command=MAV_CMD_DO_SET_SERVO
+                command=MAV_CMD_DO_SET_SERVO,
                 confirmation=0,
                 param1=servo_number,  # Servo number (1 for first servo, 2 for second, etc.)
                 param2=pwm_value,     # PWM value (e.g., 1100 to 1900)
