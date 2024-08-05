@@ -20,8 +20,6 @@ def set_custom_mode(custom_mode: str = "GUIDED") -> bool:
 
 def activate_servo(servo_number, pwm_value):
     if current_state.mode != "GUIDED":
-        set_custom_mode("GUIDED")
-        print("Modo setado para GUIDED !")
         if not set_custom_mode("GUIDED"):
             rospy.logerr("Falha ao mudar para o modo GUIDED.")
             return False
@@ -49,5 +47,5 @@ if __name__ == "__main__":
     # Exemplo: Ativa o servo no canal 7 com um valor PWM de 1500
     if activate_servo(7, 1500):
         rospy.loginfo("Servo ativado com sucesso!")
-    else:
-        rospy.logerr(f"Falha ao ativar o servo.")
+    else rospy.ServiceException as e:
+        rospy.logerr(f"Falha ao ativar o servo. Na chamada de serviço {e}")
