@@ -14,6 +14,7 @@ def set_custom_mode(custom_mode: str = "GUIDED") -> bool:
         set_mode_service = rospy.ServiceProxy("/mavros/set_mode", SetMode)
         response = set_mode_service(0, custom_mode)
         return response.mode_sent
+        print(f"Modo: {response.mode_sent}")
     except rospy.ServiceException as e:
         rospy.logerr(f"Falha na chamada do serviço: {e}")
         return False
