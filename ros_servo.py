@@ -14,13 +14,14 @@ def set_custom_mode(custom_mode: str = "GUIDED") -> bool:
         set_mode_service = rospy.ServiceProxy("/mavros/set_mode", SetMode)
         response = set_mode_service(0, custom_mode)
         return response.mode_sent
-        print(f"Modo: {response.mode_sent}")
     except rospy.ServiceException as e:
         rospy.logerr(f"Falha na chamada do serviço: {e}")
         return False
 
 def activate_servo(servo_number, pwm_value):
     if current_state.mode != "GUIDED":
+        set_custom_mode("GUIDED")
+        print("Modo setado para GUIDED !")
         if not set_custom_mode("GUIDED"):
             rospy.logerr("Falha ao mudar para o modo GUIDED.")
             return False
