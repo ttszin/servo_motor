@@ -33,5 +33,5 @@ rospy.init_node('servo_control_node')
 # Testando os comandos de servo
 send_set_servo_command(7, 2000)
 rospy.logwarn(f"Pós chamada")
-send_set_servo_command(7, 900)
-send_set_servo_command(7, 1900)
+send_set_servo_command(7, 800)
+send_set_servo_command(7, 2000)
