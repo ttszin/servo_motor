@@ -50,4 +50,4 @@ if __name__ == "__main__":
     if activate_servo(7, 1500):
         rospy.loginfo("Servo ativado com sucesso!")
     else:
-        rospy.logerr("Falha ao ativar o servo.")
+        rospy.logerr(f"Falha ao ativar o servo. {e}")
